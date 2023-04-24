@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adivina el numero</title>
+</head>
+<body>
+	<h1>Adivina el numero</h1>
+	<p>Introduce un numero entre 1 y 10 y haz clic en Jugar para ganar premios.</p>
+
+	<label for="number-input">Numero:</label>
+	<input type="number" id="number-input" name="number-input" min="1" max="10" required>
+
+	<label for="cost-input">Costo de juego:</label>
+	<input type="number" id="cost-input" name="cost-input" min="1" required>
+
+	<button id="play-button">Jugar</button>
+	<button id="reset-button">Reiniciar</button>
+
+	<div id="result"></div>
+
+	<script>
+		const numberInput = document.getElementById('number-input');
+		const costInput = document.getElementById('cost-input');
+		const playButton = document.getElementById('play-button');
+		const resetButton = document.getElementById('reset-button');
+		const resultDiv = document.getElementById('result');
+
+		playButton.addEventListener('click', () => {
+			const randomNumber = Math.floor(Math.random() * 10) + 1;
+			const userNumber = parseInt(numberInput.value);
+			const cost = parseInt(costInput.value);
+
+			if (userNumber === randomNumber) {
+				const winnings = cost * 2;
+				resultMessage = `¡Felicidades! Ganaste $${winnings}.`;
+			} else {
+				const difference = Math.abs(randomNumber - userNumber);
+				resultMessage = `Casi lo logras. Ganaste $${Math.floor(cost / 2)} al estar a ${difference} del numero ganador (${randomNumber}).`;
+			}
+
+			resultDiv.textContent = resultMessage;
+
+			// Desactivar campo de entrada del número y botón de jugar
+			numberInput.disabled = true;
+			playButton.disabled = true;
+		});
+
+		resetButton.addEventListener('click', () => {
+			resultDiv.textContent = '';
+			numberInput.disabled = false;
+			playButton.disabled = false;
+			numberInput.value = '';
+			costInput.value = '';
+		});
+	</script>
+</body>
+</html>
